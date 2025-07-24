@@ -3,9 +3,11 @@
 ![NETFLIX LOGO](https://github.com/Gaurav130421/netflix_movies_and_tvshows_analysis/blob/main/NETFLIX%20LOGO.jpg)
 
 Overview
+
 This project involves a comprehensive analysis of Netflix's movies and TV shows data using SQL. The goal is to extract valuable insights and answer various business questions based on the dataset. The following README provides a detailed account of the project's objectives, business problems, solutions, findings, and conclusions.
 
 Objectives
+
 Analyze the distribution of content types (movies vs TV shows).
 Identify the most common ratings for movies and TV shows.
 List and analyze content based on release years, countries, and durations.
@@ -15,6 +17,7 @@ The data for this project is sourced from the Kaggle dataset:
 
 Dataset Link: Movies Dataset
 Schema
+
 DROP TABLE IF EXISTS netflix;
 CREATE TABLE netflix
 (
@@ -32,20 +35,25 @@ CREATE TABLE netflix
     description  VARCHAR(550)
 );
 Business Problems and Solutions
+
 1. Count the Number of Movies vs TV Shows
+
 SELECT 
     type,
     COUNT(*)
 FROM netflix
 GROUP BY 1;
+
 Objective: Determine the distribution of content types on Netflix
-2. List All Movies Released in a Specific Year (e.g., 2020)
+
+
+3. List All Movies Released in a Specific Year (e.g., 2020)
 SELECT * 
 FROM netflix
 WHERE release_year = 2020;
 Objective: Retrieve all movies released in a specific year.
 
-3. Find the Top 5 Countries with the Most Content on Netflix
+4. Find the Top 5 Countries with the Most Content on Netflix
 SELECT * 
 FROM
 (
@@ -60,7 +68,7 @@ ORDER BY total_content DESC
 LIMIT 5;
 Objective: Identify the top 5 countries with the highest number of content items.
 
-4. Identify the Longest Movie
+5. Identify the Longest Movie
 SELECT 
     *
 FROM netflix
@@ -68,13 +76,13 @@ WHERE type = 'Movie'
 ORDER BY SPLIT_PART(duration, ' ', 1)::INT DESC;
 Objective: Find the movie with the longest duration.
 
-5. Find Content Added in the Last 5 Years
+6. Find Content Added in the Last 5 Years
 SELECT *
 FROM netflix
 WHERE TO_DATE(date_added, 'Month DD, YYYY') >= CURRENT_DATE - INTERVAL '5 years';
 Objective: Retrieve content added to Netflix in the last 5 years.
 
-6. Find All Movies/TV Shows by Director 'Rajiv Chilaka'
+7. Find All Movies/TV Shows by Director 'Rajiv Chilaka'
 SELECT *
 FROM (
     SELECT 
@@ -85,14 +93,14 @@ FROM (
 WHERE director_name = 'Rajiv Chilaka';
 Objective: List all content directed by 'Rajiv Chilaka'.
 
-7. List All TV Shows with More Than 5 Seasons
+8. List All TV Shows with More Than 5 Seasons
 SELECT *
 FROM netflix
 WHERE type = 'TV Show'
   AND SPLIT_PART(duration, ' ', 1)::INT > 5;
 Objective: Identify TV shows with more than 5 seasons.
 
-8. Count the Number of Content Items in Each Genre
+9. Count the Number of Content Items in Each Genre
 SELECT 
     UNNEST(STRING_TO_ARRAY(listed_in, ',')) AS genre,
     COUNT(*) AS total_content
